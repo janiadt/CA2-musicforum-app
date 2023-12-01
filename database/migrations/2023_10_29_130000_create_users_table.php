@@ -22,9 +22,7 @@ return new class extends Migration
             $table->rememberToken();
             // Timestamps creates the created_at and updated_at entities
             $table->timestamps();
-            // Here are my own entities. the enum function will create the membership enum entity, with these three options. The post_amount will update each time the user creates a post
-            // I realised that I needed a default value here and that it would throw an error. I fixed it now.
-            $table->enum('membership', ['member', 'subscriber', 'administrator'])->default('member');
+            
             $table->integer('post_amount')->default(0);
             
         });

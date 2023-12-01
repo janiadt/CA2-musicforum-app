@@ -2,9 +2,9 @@
 @extends('layouts.myapp')
 {{-- I am then replacing the content section in the original app file with this current content. --}}
 @section('content')
-{{-- The page only displays the songs if the user is a subscriber --}}
+{{-- The page only displays the songs if the user is a subscriber or admin --}}
     @auth
-    @if (Auth::user()->membership === 'subscriber')
+    @if (Auth::user()->hasTheseRoles(['subscriber', 'admin']))
     <h2 class="text-center">All Songs</h2>
     {{-- Moving the create song button to the index body --}}
     <a href="{{route('songs.create')}}" class="btn btn-primary px-2">Submit Song</a> 
@@ -16,11 +16,14 @@
                 <h5>{{ $song->title }}</h5>
                 <p>{{ ($song->artist) }}</p>
                 {{-- We get a users array from the pivot table associated with the songs'id. We then iterate through the array, and display a name for each user. --}}
-                @forelse($song->users as $user)
-                  <p>{{$user->name}}</p>
-                @empty
-                  <p>No Users Favorited</p>
-                @endforelse
+                {{-- Added a flex so the names don't take up as much space --}}
+                <div class="d-flex">
+                  <p class="me-2">Favorite count: {{count($song->users)}}</p>
+                  {{-- If the current user is in the users array from the pivot table, display this message --}}
+                  @if ($song->users->whereIn('id', Auth::id())->first())
+                  <p class="text-primary">Favorite Song ★</p>
+                  @endif              
+                </div>
                 {{-- The diffForHumans function makes the date more readable. --}}
                 <small class="float-right">{{ $song->created_at->diffForHumans() }}</small>
                 {{-- This will route to the show file, while will show more details about the song --}}

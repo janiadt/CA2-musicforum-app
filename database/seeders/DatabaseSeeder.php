@@ -17,26 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // Calling user seeder
+        // Calling all seeders here instead of making a new call for each seeder.
         $this->call([
-            UserSeeder::class
-        ]);
-    
-        // Calling the song seeder when the database seeder is run(sail artisan db:seed)
-        $this->call([
-            SongSeeder::class
-        ]);
-
-         // Calling thread seeder
-         $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+            SongSeeder::class,
             ThreadSeeder::class
         ]);
-        
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
+    
         // Here we're seeding the pivot table between users and songs for each user. 
         foreach(User::all() as $user)
         $user = User::factory()->hasAttached(Song::factory()->count(1), 

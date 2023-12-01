@@ -33,7 +33,8 @@ class SongController extends Controller
         // We attach the current authenticated user's ID. If there's already an ID, it's detached before it's attached. This ensures one user can't favorite the same song.
         $song->users()->detach(Auth::id());
         $song->users()->attach(Auth::id());
-
+        
+        
         return redirect()
             ->route('songs.index') 
             ->with('status','Favourited a new Song!'); 
