@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +30,8 @@ Route::resource('songs', SongController::class);
 // We get make a new route and pass the song ID and a new "favorite" url. We then call the favorite method in the song controller.
 Route::get('songs/{song}/favourite', [SongController::class, 'favourite'])->name('songs.favourite');
 
-// Below is the route to get the dashboard of the user side of the website. It uses the authentication middleware, which is run before the route is finished.
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Using my HomeController index method to get to the dashboard. 
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 // Creating the resource routes for the threads table
 Route::resource('threads', ThreadController::class)->except([
     // Removing the edit route from the list, so I can create my own.
