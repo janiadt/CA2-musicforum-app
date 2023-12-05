@@ -31,7 +31,8 @@ Route::resource('songs', SongController::class);
 Route::get('songs/{song}/favourite', [SongController::class, 'favourite'])->name('songs.favourite');
 
 // Using my HomeController index method to get to the dashboard. 
-Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home.index');
+
 // Creating the resource routes for the threads table
 Route::resource('threads', ThreadController::class)->except([
     // Removing the edit route from the list, so I can create my own.

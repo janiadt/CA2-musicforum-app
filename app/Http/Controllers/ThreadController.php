@@ -89,9 +89,15 @@ class ThreadController extends Controller
     public function edit(string $id)
     {
         $thread = Thread::findOrFail($id);
-        return view('threads.edit', [
-            'thread' => $thread
-        ]);
+        // Making sure the user is the person accessing the edit. If not, just send them to the index
+        if ($thread->user_id === Auth::user()->id || Auth::user()->hasRole('admin')){
+            return view('threads.edit', [
+                'thread' => $thread
+            ]);
+        } else {
+            // Sending an error if the user attempts to edit a thread they don't own
+            abort(401);
+        }
     }
 
     /**
@@ -128,10 +134,14 @@ class ThreadController extends Controller
     public function destroy(string $id)
     {
         $thread = Thread::findOrFail($id);
-        $thread->delete();
-        // Redirecting to the index and giving our flash message a status key
-        return redirect()
-            ->route('threads.index')
-            ->with('status', 'Deleted the Thread!');
+        if ($thread->user_id === Auth::user()->id || Auth::user()->hasRole('admin')){
+            $thread->delete();
+            // Redirecting to the index and giving our flash message a status key
+            return redirect()
+                ->route('threads.index')
+                ->with('status', 'Deleted the Thread!');
+        } else {
+            abort(401);
+        }
     }
 }

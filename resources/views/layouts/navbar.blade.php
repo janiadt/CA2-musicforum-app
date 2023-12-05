@@ -28,7 +28,7 @@
                 </li> 
                 {{-- Navbar item that leads to the user dashboard page. --}}
                 <li class="nav-item"> 
-                    <a href="{{route('dashboard')}}" class="nav-link">{{Auth::user()->name}}</a> 
+                    <a href="{{route('home.index')}}" class="nav-link">{{Auth::user()->name}}</a> 
                 </li> 
                 @endauth
             </ul> 

@@ -32,7 +32,7 @@
     <br>
     {{-- Edit route passing an array of parameters. We need the current user's ID, so we know who's actually editing the page and if they're allowed to --}}
     {{-- As another step of security, we will lock the whole html expression behind an if statement that checks if the user's id is correct --}}
-    @if ($thread->user_id === Illuminate\Support\Facades\Auth::user()->id)
+    @if ($thread->user_id === Illuminate\Support\Facades\Auth::user()->id || Auth::user()->hasRole('admin'))
     <a href="{{route('threads.edit', $thread->id) }}" class="btn btn-primary float-left">Edit</a>
     <a href="#" class="btn btn-danger float-right" data-bs-toggle="modal" data-bs-target="#delete-modal">Delete</a>
     <div class="clearfix"></div>
