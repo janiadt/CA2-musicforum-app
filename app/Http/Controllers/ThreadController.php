@@ -134,6 +134,7 @@ class ThreadController extends Controller
     public function destroy(string $id)
     {
         $thread = Thread::findOrFail($id);
+        // If the user is the person who made the thread, or if they are an admin user, they can delete the post.
         if ($thread->user_id === Auth::user()->id || Auth::user()->hasRole('admin')){
             $thread->delete();
             // Redirecting to the index and giving our flash message a status key

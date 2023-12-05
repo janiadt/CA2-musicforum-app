@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Role;
 
 class ProfileController extends Controller
 {
@@ -61,10 +62,11 @@ class ProfileController extends Controller
     // Making a basic function that changes the user's membership enum to subscriber
     public function subscribe(){
         $user = Auth::user();
+        $role_subscriber = Role::where('name', 'subscriber')->first();
         // If the user exists OR the user isn't a subscriber
-        if ($user !== null && $user->membership !== 'subscriber'){
-            $user->membership = 'subscriber';
-            $user->save();
+        if ($user !== null && !$user->hasRole('subscriber')){
+            // Attaching the subscriber role to the current user
+            $user->roles()->attach($role_subscriber);
         }
         // Either way, redirect to songs when finished
         return redirect()

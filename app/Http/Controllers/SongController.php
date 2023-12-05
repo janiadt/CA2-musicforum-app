@@ -45,9 +45,13 @@ class SongController extends Controller
      */
     public function create()
     {
-
+        // If the user is an admin or a subscriber
+        if (Auth::user()->hasTheseRoles(['admin', 'subscriber'])){
         // Returning the create view
         return view('songs.create');
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -101,10 +105,14 @@ class SongController extends Controller
     public function edit(string $id)
     {
         // Passing our song item to the edit page
+        if (Auth::user()->hasTheseRoles(['admin', 'subscriber'])){
         $song = Song::findOrFail($id);
         return view('songs.edit', [
             'song' => $song
         ]);
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -144,6 +152,7 @@ class SongController extends Controller
      */
     public function destroy(string $id)
     {
+        if (Auth::user()->hasTheseRoles(['admin', 'subscriber'])){
         // Here we're using the same findOrFail method, only we're deleting it instead
         $song = Song::findOrFail($id);
         $song->delete();
@@ -151,6 +160,9 @@ class SongController extends Controller
         return redirect()
             ->route('songs.index')
             ->with('status', 'Deleted the Song!');
+        } else {
+            abort(401);
+        }
 
     }
 }
