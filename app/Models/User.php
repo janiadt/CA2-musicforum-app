@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Song;
 use App\Models\Role;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
@@ -49,6 +50,10 @@ class User extends Authenticatable
     // Updating model structure so that the songs function returns the belongsToMany method. Once this relationship is defined, I can access the user's favorite songs in the controller.
     public function songs(): BelongsToMany {
         return $this->belongsToMany(Song::class);
+    }
+
+    public function posts(): hasMany{
+        return $this->hasMany(Post::class);
     }
     
     // Adding the roles relationship to the user model. This user belongsToMany roles.

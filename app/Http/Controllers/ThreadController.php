@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Thread;
 use App\Models\User;
+use App\Models\Post;
 use Auth;
 
 class ThreadController extends Controller
@@ -75,10 +76,12 @@ class ThreadController extends Controller
     {
         // Returning thread view with thread id
         $thread = Thread::findOrFail($id);
+        $posts = Post::where('thread_id', $id)->paginate(20);
         // Updating the views entity in the thread column every time this function is calledi
         $thread->update(['views' => $thread->views + 1]);
         return view('threads.show', [
-            'thread' => $thread
+            'thread' => $thread,
+            'posts' => $posts
         ]);
     }
 
@@ -89,7 +92,7 @@ class ThreadController extends Controller
     public function edit(string $id)
     {
         $thread = Thread::findOrFail($id);
-        // Making sure the user is the person accessing the edit. If not, just send them to the index
+        // Making sure the user is the person accessing the edit. If not, just send them an error
         if ($thread->user_id === Auth::user()->id || Auth::user()->hasRole('admin')){
             return view('threads.edit', [
                 'thread' => $thread

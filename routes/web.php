@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,13 @@ Route::resource('threads', ThreadController::class)->except([
     'edit',
     'store'
 ]);
+
+// Creating the CRUD for posts, except we don't need an index since the thread controller handles that
+Route::resource('posts', PostController::class)->except(['index', 'create']);
+
+Route::get('/posts/create/{threadid}', [PostController::class, 'create'])->name('posts.create');
+
+Route::post('/posts/create/{threadid}', [PostController::class, 'store'])->name('posts.store');
 
 Route::get('/threads/{id}/edit/', [ThreadController::class, 'edit'])->name('threads.edit');
 // Passing the user's id to the store method, which lets us access it in the controller.
