@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="text-center">Edit Thread</h3>
     {{-- Routing to threads update method, passing thread id. --}}
-    <form action="{{ route('threads.update', $thread->id) }}" method="post">
+    <form enctype="multipart/form-data" action="{{ route('threads.update', $thread->id) }}" method="post">
         {{-- Csrf ensures that we have a secure token which you will not be able to submit a form without --}}
         @csrf
         {{-- We also need a put method here, since HTML forms dont have it --}}
@@ -51,7 +51,7 @@
         <div class="form-group">
             <label for="image">Image</label>
             {{-- Date form input here --}}
-            <input type="text" name="image" id="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image')  ? : $thread->image }}">
+            <input type="file" name="image" id="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image')  ? : $thread->image }}">
             @if($errors->has('image')) 
                 <span class="invalid-feedback">
                     {{ $errors->first('image') }} 

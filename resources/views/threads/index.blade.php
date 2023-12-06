@@ -31,7 +31,7 @@
               {{-- Link to user page --}}
               <td class="p-3 pb-1"><a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover text-black row">{{$thread->users->name}}</a>
               <small style="color:#6672db">{{$thread->created_at->diffForHumans()}}</small></td>
-              <td class="p-3">0</td>
+              <td class="p-3">{{count($thread->posts)}}</td>
               {{-- The updating views column is displayed here --}}
               <td class="p-3" >{{$thread->views}}</td>
             </tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Thread;
 use App\Models\User;
 use App\Models\Post;
@@ -52,16 +53,25 @@ class ThreadController extends Controller
             'body'  => 'required|string|min:3|max:10000',
             // This line validates enum values
             'music_category'  => 'required|in:Pop,Rock,Jazz,EDM,Country,Punk Rock,Indie,Progressive Rock,Dance,Disco',
-            'image'  => 'nullable|image'
+            'image'  => 'file|image'
         ];
+
+        // Requesting an image file
+        $image = $request->file('image');
+        // getting the file extention from the image file
+        $extension = $image->getClientOriginalExtension();
+        // Making a name for the image fale with the date, title and original extension
+        $filename = date('Y-m-d-His') . '_' . $request->music_category . '.' . $extension;
+        // Storing image in a public folder 
+        $image->storeAs('public/images', $filename); 
 
         $request->validate($rules);
         // New thread intance. Adding the validated request data to the new thread table.
         $thread = new Thread;
         $thread->title = $request->title;
         $thread->body = $request->body;
-        $thread->music_category = $request->music_category;
-        $thread->image = $request->image;
+        $thread->music_category = $request->music_category; 
+        $thread->image = $filename;
         $thread->user_id = $user_id;
         $thread->save(); // This new song class now has a new array of data. It's now calling the save function.
         return redirect()
@@ -114,7 +124,7 @@ class ThreadController extends Controller
             'body'  => 'required|string|min:3|max:10000',
             // This line validates enum values
             'music_category'  => 'required|in:Pop,Rock,Jazz,EDM,Country,Punk Rock,Indie,Progressive Rock,Dance,Disco',
-            'image'  => 'nullable|image'
+            'image'  => 'file|image'
         ];
 
         $request->validate($rules);
@@ -123,7 +133,19 @@ class ThreadController extends Controller
         $thread->title = $request->title;
         $thread->body = $request->body;
         $thread->music_category = $request->music_category;
-        $thread->image = $request->image;
+        // If the request already has an image file attached to it
+        if ($request->hasFile('image')) { 
+            // Upload a new image
+            $newImage = $request->file('image');
+            $filename = date('Y-m-d-His') . '_' . $request->music_category . '.' . $newImage->getClientOriginalExtension();
+            $newImage->storeAs('public/images', $filename);
+            // If the old image exists
+            if ($thread->image) { 
+                // Delete the image from storage
+                Storage::delete('public/images/' . $thread->image);
+            }     
+        }
+        $thread->image = $filename;
         $thread->user_id = $thread->user_id;
         $thread->save(); // This new song class now has a new array of data. It's now calling the save function.
         return redirect()
@@ -139,6 +161,9 @@ class ThreadController extends Controller
         $thread = Thread::findOrFail($id);
         // If the user is the person who made the thread, or if they are an admin user, they can delete the post.
         if ($thread->user_id === Auth::user()->id || Auth::user()->hasRole('admin')){
+            if ($thread->image) { // Delete old image
+                Storage::delete('public/images/' . $thread->image);
+            }
             $thread->delete();
             // Redirecting to the index and giving our flash message a status key
             return redirect()

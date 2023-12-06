@@ -110,7 +110,6 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         $post = Post::findOrFail($id);
-        dd($id);
         // If the user is the person who made the thread, or if they are an admin user, they can delete the post.
         if ($post->user_id === Auth::user()->id || Auth::user()->hasRole('admin')){
             $post->delete();

@@ -4,7 +4,7 @@
 @section('content')
     <h3 class="text-center">Create Thread</h3>
     {{-- Here I'm routing the form action to the songs.store page. This will basically lead us to that page when the form is submitted, with the post method, which carries data along. --}}
-    <form action="{{ route('threads.store', Illuminate\Support\Facades\Auth::user()->id) }}" method="post">
+    <form enctype="multipart/form-data" action="{{ route('threads.store') }}" method="post">
         {{-- Csrf ensures that we have a secure token which you will not be able to submit a form without --}}
         @csrf
         <div class="form-group">
@@ -47,7 +47,7 @@
         <div class="form-group">
             <label for="date">Image</label>
             {{-- Image form here --}}
-            <input type="text" name="image" id="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image') }}">
+            <input type="file" name="image" id="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image') }}">
             @if($errors->has('image')) 
                 <span class="invalid-feedback">
                     {{ $errors->first('image') }} 

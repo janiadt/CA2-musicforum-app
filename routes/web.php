@@ -37,8 +37,7 @@ Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'veri
 // Creating the resource routes for the threads table
 Route::resource('threads', ThreadController::class)->except([
     // Removing the edit route from the list, so I can create my own.
-    'edit',
-    'store'
+    'edit'
 ]);
 
 // Creating the CRUD for posts, except we don't need an index since the thread controller handles that
@@ -50,7 +49,6 @@ Route::post('/posts/create/{threadid}', [PostController::class, 'store'])->name(
 
 Route::get('/threads/{id}/edit/', [ThreadController::class, 'edit'])->name('threads.edit');
 // Passing the user's id to the store method, which lets us access it in the controller.
-Route::post('/threads/{userid}', [ThreadController::class, 'store'])->name('threads.store');
 
 Route::get('/subscribe', [ProfileController::class, 'subscribe'])->name('profile.subscribe');
 

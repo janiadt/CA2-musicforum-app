@@ -27,5 +27,5 @@ class Thread extends Model
     }
 
     // Adding views to the fillable array, to allow saving through methods.
-    protected $fillable = ['views'];
+    protected $fillable = ['views', 'image'];
 }

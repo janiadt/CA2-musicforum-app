@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->mediumText('body');
             $table->enum('music_category', ['Pop', 'Rock', 'Jazz', 'EDM', 'Country', 'Punk Rock', 'Indie', 'Progressive Rock', 'Dance', 'Disco']);
-            $table->string('image')->nullable();
+            $table->string('image')->default('default.png')->nullable();
             $table->timestamps();
             // Adding page views, which I will increment server-side
             $table->integer('views')->default(0);

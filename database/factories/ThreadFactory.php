@@ -26,8 +26,7 @@ class ThreadFactory extends Factory
             'body' => $this->faker->sentence(500),
             // Faker random elements to pick random enum value
             'music_category' => $this->faker->randomElement($music_category),
-            // In the faker documentation, I found a date, duration and url generator
-            'image' => $this->faker->imageUrl($width = 640, $height = 480),
+           
             // The random user has to not be 0, because that creates an error in SQL
             'user_id' => $this->faker->randomDigitNot(0)
         ];
