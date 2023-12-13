@@ -4,11 +4,14 @@
     <h3 class="text-center">{{$thread->title}}</h3>
     {{-- Displaying the data of the thread table --}}
     <table class="table table-primary table-striped">
+        {{-- If the uploaded thread came with an image --}}
+        @if($thread->image)
         <tr>
             <td class="text-left">
                 <img width="300" src={{ asset("storage/images/" . $thread->image) }} />
             </td>
         </tr>
+        @endif
         <tr>
             <td class="text-left">
                 {{ $thread->body }}

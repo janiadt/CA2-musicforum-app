@@ -24,6 +24,22 @@
                         {{ __('Forum') }}
                     </x-nav-link>
                 </div>  
+
+                @if (Auth::user()->hasRole('user'))
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('user.announcements.index')" :active="request()->routeIs('user.announcements.index')">
+                        {{ __('Forum') }}
+                    </x-nav-link>
+                </div>  
+                @endif
+
+                @if (Auth::user()->hasRole('admin'))
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('admin.announcements.index')" :active="request()->routeIs('admin.announcements.index')">
+                        {{ __('Announcements') }}
+                    </x-nav-link>
+                </div>  
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

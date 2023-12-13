@@ -58,12 +58,15 @@ class ThreadController extends Controller
 
         // Requesting an image file
         $image = $request->file('image');
-        // getting the file extention from the image file
-        $extension = $image->getClientOriginalExtension();
-        // Making a name for the image fale with the date, title and original extension
-        $filename = date('Y-m-d-His') . '_' . $request->music_category . '.' . $extension;
-        // Storing image in a public folder 
-        $image->storeAs('public/images', $filename); 
+        if($image){
+            // getting the file extention from the image file
+            $extension = $image->getClientOriginalExtension();
+            // Making a name for the image fale with the date, title and original extension
+            $filename = date('Y-m-d-His') . '_' . $request->music_category . '.' . $extension;
+            // Storing image in a public folder 
+            $image->storeAs('public/images', $filename); 
+        }
+        
 
         $request->validate($rules);
         // New thread intance. Adding the validated request data to the new thread table.
@@ -71,7 +74,7 @@ class ThreadController extends Controller
         $thread->title = $request->title;
         $thread->body = $request->body;
         $thread->music_category = $request->music_category; 
-        $thread->image = $filename;
+        $thread->image = $image ? $filename : null;
         $thread->user_id = $user_id;
         $thread->save(); // This new song class now has a new array of data. It's now calling the save function.
         return redirect()

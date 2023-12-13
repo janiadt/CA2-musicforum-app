@@ -12,9 +12,9 @@
             <span class="navbar-toggler-icon"></span> 
         </button> 
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
+        
             <!-- Left Side Of Navbar --> 
-            <ul class="navbar-nav mr-auto"> 
+            <ul class="navbar-nav"> 
                 {{-- If the user isn't registered, they can't see the songs --}}
                 @auth
                 <li class="nav-item"> 
@@ -27,9 +27,15 @@
                     <a href="{{route('threads.index')}}" class="nav-link">Forum</a> 
                 </li> 
 
+                @if (Auth::user()->hasRole('admin'))
+                <li class="nav-item"> 
+                    <a href="{{route('admin.announcements.index')}}" class="nav-link">Announcements</a> 
+                </li> 
+                @else
                 <li class="nav-item"> 
                     <a href="{{route('user.announcements.index')}}" class="nav-link">Announcements</a> 
                 </li> 
+                @endif
 
                 {{-- Navbar item that leads to the user dashboard page. --}}
                 <li class="nav-item"> 
@@ -41,7 +47,7 @@
 
             <!-- Right Side Of Navbar --> 
             {{-- Changing the layout of the navbar, and adding a guest view --}}
-            <ul class="navbar-nav ml-auto"> 
+            <ul class="navbar-nav"> 
                 
                 @guest
                 <li class="nav-item"> 
@@ -52,8 +58,28 @@
                     {{-- The route will lead us to the login page. --}}
                     <a href="{{route('login')}}" class="nav-link">Log In</a> 
                 </li> 
+
+                @else
+                <li class="nav-item"> 
+                    {{-- The route will lead us to the profile page. --}}
+                    <a href="{{route('profile.edit')}}" class="nav-link">Profile</a> 
+                </li> 
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                <li class="nav-item"> 
+                    {{-- The route will lead us to the login page. --}}
+                    <a href="{{route('logout')}}" class="nav-link" onclick="event.preventDefault();
+                    this.closest('form').submit();">Logout</a> 
+                </li> 
+                </form>
+
+
                 @endguest
+
+                
             </ul> 
-        </div> 
+
+            
     </div> 
 </nav> 

@@ -15,10 +15,15 @@
                         <p>You are an admin user</p>
 
                     </div>
+
+                    <div>
+                      <a href="{{route('admin.announcements.create')}}" class="btn btn-primary px-2">Make an announcement!</a> 
+                    </div>
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" id="normal-table" style="table-layout:auto">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                               <tr>
+                                <h4 class="fw-bold">All Threads</h4>
                                 <th scope="col" style="width:60%" class="p-2">Thread Title</th>
                                 <th scope="col" class="p-2">Created By</th>
                                 <th scope="col" class="p-2">Post Count</th>

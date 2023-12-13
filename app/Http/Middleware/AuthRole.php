@@ -17,8 +17,8 @@ class AuthRole
     {
         // Making a middleware that checks if the requested user doesnt exist or if they don't have the chosen roles
         if (!$request->user() || !$request->user()->hasTheseRoles($roles)) {
-            // If they're not the correct user we'll just return them to the dashboard
-            return redirect()->route('dashboard');
+            // If they're not the correct user we'll just return them to the main route
+            return redirect()->route('threads.index');
         }
 
         return $next($request);

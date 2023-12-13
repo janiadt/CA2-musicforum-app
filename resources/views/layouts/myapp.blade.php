@@ -8,9 +8,9 @@
     {{-- With the yield blade function, we output the content of this view to a section that extends thiss layout --}}
     <title>@yield('title', 'Music Forum')</title>
 </head>
-<body>
+<body class="">
     {{-- With include, we import a view file's section, such as the navbar in this case. --}}
-    @include('layouts.navigation')
+    @include('layouts.navbar')
     <main class="container mt-4">
         {{-- Here we yield the content, which will be the factor that we change for other pages --}}
         @yield('content')
@@ -20,7 +20,6 @@
     {{-- Including bootstrap css and app.js --}}
     
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Here we will create some flash message functionality with bootstrap styling --}}
     @if(session('status')) 
