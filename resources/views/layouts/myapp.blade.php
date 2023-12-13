@@ -10,7 +10,7 @@
 </head>
 <body>
     {{-- With include, we import a view file's section, such as the navbar in this case. --}}
-    @include('layouts.navbar')
+    @include('layouts.navigation')
     <main class="container mt-4">
         {{-- Here we yield the content, which will be the factor that we change for other pages --}}
         @yield('content')
@@ -18,7 +18,9 @@
     @include('layouts.footer')
 
     {{-- Including bootstrap css and app.js --}}
+    
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Here we will create some flash message functionality with bootstrap styling --}}
     @if(session('status')) 

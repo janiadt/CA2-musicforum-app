@@ -26,6 +26,11 @@
                 <li class="nav-item"> 
                     <a href="{{route('threads.index')}}" class="nav-link">Forum</a> 
                 </li> 
+
+                <li class="nav-item"> 
+                    <a href="{{route('user.announcements.index')}}" class="nav-link">Announcements</a> 
+                </li> 
+
                 {{-- Navbar item that leads to the user dashboard page. --}}
                 <li class="nav-item"> 
                     <a href="{{route('home.index')}}" class="nav-link">{{Auth::user()->name}}</a> 

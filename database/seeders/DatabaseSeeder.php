@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SongSeeder::class,
             ThreadSeeder::class,
-            PostSeeder::class
+            PostSeeder::class,
+            AnnouncementSeeder::class
         ]);
     
         // Here we're seeding the pivot table between users and songs for each user. 

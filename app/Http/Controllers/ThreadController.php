@@ -147,7 +147,7 @@ class ThreadController extends Controller
         }
         $thread->image = $filename;
         $thread->user_id = $thread->user_id;
-        $thread->save(); // This new song class now has a new array of data. It's now calling the save function.
+        $thread->save(); // This new thread class now has a new array of data. It's now calling the save function.
         return redirect()
             ->route('threads.show', $thread->id)
             ->with('status','Updated the Thread!');

@@ -8,6 +8,12 @@ use Auth;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        // Using the auth middleware
+        $this->middleware('auth');
+    }
+
     // This controller will take care of the home page thread display
 
     public function index(Request $request)
@@ -16,7 +22,7 @@ class HomeController extends Controller
         // Getting the authenticated user
         $user = Auth::user();
         // Making a home variable
-        $home = 'user.home';
+        $home = 'home';
         // Making a threads variable
         $threads = Thread::where('user_id', Auth::id())->paginate(20);
         // If the user has the admin role in the roles table
@@ -40,54 +46,4 @@ class HomeController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        
-
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // 
-    public function edit(string $id)
-    {
-        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        
-    }
 }

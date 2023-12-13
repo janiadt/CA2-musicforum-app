@@ -7,6 +7,11 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 
+// Giving each of the CRUD controllers a unique name based on their designation
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\User\AnnouncementController as UserAnnouncementController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +56,18 @@ Route::get('/threads/{id}/edit/', [ThreadController::class, 'edit'])->name('thre
 // Passing the user's id to the store method, which lets us access it in the controller.
 
 Route::get('/subscribe', [ProfileController::class, 'subscribe'])->name('profile.subscribe');
+
+// I'm going to be implementing the admin-only middleware here for the new updates table. I don't really know how to have a middleware that checks if the user's id matches the thread/post id,
+// so I'm going to implement at least this to show that I have the knowledge
+Route::resource('/announcements', UserAnnouncementController::class)
+    ->middleware(['auth'])
+    ->names('user.announcements')
+    ->only('index', 'show');
+
+Route::resource('admin/announcements', AdminAnnouncementController::class)
+    // Here we're accessing the auth middleware and passing the admin role, which means that only the admin user can access the admin threads content
+    ->middleware(['auth', 'role:admin'])
+    ->names('admin.announcements');;
 
 // In the auth middleware, we have a few profile routes, that lead to the edit, update and destroy pages. (if the user is authenticated)
 Route::middleware('auth')->group(function () {

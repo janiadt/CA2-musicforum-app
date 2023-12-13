@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Song;
 use App\Models\Role;
 use App\Models\Post;
+use App\Models\Announcement;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
@@ -52,7 +53,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Song::class);
     }
 
-    public function posts(): hasMany{
+    public function posts(): HasMany{
         return $this->hasMany(Post::class);
     }
     
@@ -62,6 +63,14 @@ class User extends Authenticatable
         // pointing out to laravel that the pivot table is called user_role, since I accidentally didn't follow convention, which is in alphabetic order.
         return $this->belongsToMany(Role::class, 'user_role');
     }
+
+    // Adding the announcements hasMany relationship to the user model. One admin can have many announcements
+    public function announcements(): HasMany
+    {
+        // pointing out to laravel that the pivot table is called user_role, since I accidentally didn't follow convention, which is in alphabetic order.
+        return $this->hasMany(Announcement::class, 'user_role');
+    }
+
 
     // This method will check if the user has the input role
     public function hasRole($role){
