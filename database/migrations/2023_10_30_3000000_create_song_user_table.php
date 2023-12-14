@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('song_id');
             // Creating a pivot table in the migration, which will hold the ids of both the users and songs. This will create a many-to-many relationship that will let us see both ids.
             // Added constraints
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('song_id')->references('id')->on('songs')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('song_id')->references('id')->on('songs')->onUpdate('cascade')->onDelete('restrict');
         });
     }
 
